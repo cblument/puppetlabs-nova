@@ -8,17 +8,18 @@ class glance::registry(
   $sql_idle_timeout = '3600'
 ) inherits glance {
   file { "/etc/glance/glance-registry.conf":
-    ensure => present,
-    owner  => 'glance',
-    group  => 'root',
-    mode   => 640,
+    ensure  => present,
+    owner   => 'glance',
+    group   => 'root',
+    mode    => 640,
     content => template('glance/glance-registry.conf.erb'),
     require => Class["glance"]
   }
   service { "glance-registry":
-    ensure => running,
-    enable => true,
-    require => Class["glance"]
+    ensure    => running,
+    enable    => true,
+    subscribe => File["/etc/glance/glance-registry.conf"],
+    require   => Class["glance"]
   }
 
 }

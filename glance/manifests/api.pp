@@ -13,17 +13,20 @@ class glance::api(
   $swift_store_container = 'glance',
   $swift_store_create_container_on_put = 'False'
 ) inherits glance {
+
   file { "/etc/glance/glance-api.conf":
-    ensure => present,
-    owner  => 'glance',
-    group  => 'root',
-    mode   => 640,
+    ensure  => present,
+    owner   => 'glance',
+    group   => 'root',
+    mode    => 640,
     content => template('glance/glance-api.conf.erb'),
     require => Class["glance"]
   }
+
   service { "glance-api":
-    ensure => running,
-    enable => true,
-    require => Class["glance"]
+    ensure    => running,
+    enable    => true,
+    subscribe => File["/etc/glance/glance-api.conf"],
+    require   => Class["glance"]
   }
 }
