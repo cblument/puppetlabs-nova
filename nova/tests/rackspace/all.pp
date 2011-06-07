@@ -26,4 +26,7 @@ class { 'glance::api':
   swift_store_key => 'foo_pass',
 }
 
-class { 'glance::registry': }
+class { 'glance::registry':
+  bind_host => $ipaddress,
+  debug => 'true'
+}
