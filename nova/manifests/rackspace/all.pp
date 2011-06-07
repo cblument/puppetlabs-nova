@@ -87,18 +87,18 @@ class nova::rackspace::all(
     quota_max_injected_file_path_bytes    => $quota_max_injected_file_path_bytes,
   }
 
-  class { "nova::api": enabled => false }
+  class { "nova::api": enabled => true }
   class { "nova::compute::xenserver":
     host                       => $host,
     xenapi_connection_url      => $xenapi_connection_url,
     xenapi_connection_username => $xenapi_connection_username,
     xenapi_connection_password => $xenapi_connection_password,
     xenapi_inject_image        => $xenapi_inject_image,
-    enabled                    => false
+    enabled                    => true
   }
-  class { "nova::network": enabled => false }
-  class { "nova::objectstore": enabled => false }
-  class { "nova::scheduler": enabled => false }
+  class { "nova::network": enabled => true }
+  class { "nova::objectstore": enabled => true }
+  class { "nova::scheduler": enabled => true }
   class { 'nova::db':
     # pass in db config as params
     password => $db_password,
