@@ -17,6 +17,7 @@ class nova::controller(
   $flat_network_bridge  = 'br100',
   $flat_network_bridge_ip  = '11.0.0.1',
   $flat_network_bridge_netmask  = '255.255.255.0',
+  $configure_bridge = true,
 
   $nova_network = '11.0.0.0',
   $available_ips = '256',
@@ -54,6 +55,7 @@ class nova::controller(
     flat_network_bridge         => $flat_network_bridge,
     flat_network_bridge_ip      => $flat_network_bridge_ip,
     flat_network_bridge_netmask => $flat_network_bridge_netmask,
+    configure_bridge            => $configure_bridge,
   }
 
   class { "nova::objectstore": enabled => true }
