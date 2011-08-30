@@ -2,6 +2,8 @@
 # from the virtualization implementation of the compute node
 class nova::compute(
   $api_server,
+  $image_service = 'nova.image.local.LocalImageService',
+  $glance_api_servers = 'localhost:9292',
   $enabled = false,
   $api_port = 8773,
   $aws_address = '169.254.169.254'
@@ -9,6 +11,14 @@ class nova::compute(
 
   Exec['post-nova_config'] ~> Service['nova-compute']
   Exec['nova-db-sync']  ~> Service['nova-compute']
+
+  if $image_service == 'nova.image.glance.GlanceImageService' {
+    nova_config {
+      'glance_api_servers': value => $glance_api_servers;
+      'glance_host': value => $glance_host;
+      'glance_port': value => $glance_port;
+    }
+  }
 
   if $enabled {
     $service_ensure = 'running'

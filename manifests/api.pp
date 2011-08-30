@@ -1,7 +1,21 @@
-class nova::api($enabled=false) {
+class nova::api(
+  $enabled=false,
+  $image_service = 'nova.image.local.LocalImageService',
+  $glance_api_servers = 'localhost:9292',
+  $glance_host = 'localhost',
+  $glance_port = '9292'
+) {
 
   Exec['post-nova_config'] ~> Service['nova-api']
   Exec['nova-db-sync'] ~> Service['nova-api']
+
+  if $image_service == 'nova.image.glance.GlanceImageService' {
+    nova_config {
+      'glance_api_servers': value => $glance_api_servers;
+      'glance_host': value => $glance_host;
+      'glance_port': value => $glance_port;
+    }
+  }
 
   if $enabled {
     $service_ensure = 'running'
