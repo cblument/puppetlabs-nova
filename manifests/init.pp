@@ -20,8 +20,6 @@ class nova(
   $logdir = '/var/log/nova',
   $state_path = '/var/lib/nova',
   $lock_path = '/var/lock/nova',
-  $verbose = false,
-  $nodaemon = false,
   $periodic_interval = '60',
   $report_interval = '10'
 ) {
@@ -76,7 +74,6 @@ class nova(
     refreshonly => "true",
   }
 
-
   # query out the config for our db connection
   if $sql_connection {
     nova_config { 'sql_connection': value => $sql_connection }
@@ -84,12 +81,17 @@ class nova(
     Nova_config<<| tag == $cluster_id and value == 'sql_connection' |>>
   }
 
+  if ( $allow_admin_api == true ) or ( $allow_admin_api == 'true' ) {
+    nova_config { 'allow_admin_api': value => $allow_admin_api }
+  } else {
+    nova_config { 'noallow_admin_api': value => $allow_admin_api }
+  }
   nova_config {
-    'verbose': value => $verbose;
-    'nodaemon': value => $nodaemon;
+    $allow_admin_api_hash_key: value => $allow_admin_api;
+    'verbose': value => false;
+    'nodaemon': value => false;
     'logdir': value => $logdir;
     'image_service': value => $image_service;
-    'allow_admin_api': value => $allow_admin_api;
     'rabbit_host': value => $rabbit_host;
     'rabbit_password': value => $rabbit_password;
     'rabbit_port': value => $rabbit_port;
