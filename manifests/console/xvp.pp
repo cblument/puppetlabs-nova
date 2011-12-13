@@ -1,8 +1,10 @@
 class nova::console::xvp(
+  $console_public_hostname=$ipaddress,
   $console_xvp_conf_template='/etc/nova/xvp.conf.template'
   ) inherits nova::console {
 
   nova_config {
+    'console_public_hostname': value => $console_public_hostname;
     'console_xvp_conf_template': value => $console_xvp_conf_template;
   }
 
