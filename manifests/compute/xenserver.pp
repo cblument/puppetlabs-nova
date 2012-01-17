@@ -26,7 +26,7 @@ class nova::compute::xenserver(
     'glance_num_retries': value => '5';
   }
 
-  package { 'xenapi':
+  package { 'XenAPI':
     ensure   => installed,
     provider => pip
   }
