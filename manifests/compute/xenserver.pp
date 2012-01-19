@@ -23,7 +23,7 @@ class nova::compute::xenserver(
     'instance_name_template': value => 'instance-%(uuid)s';
     'notification_driver': value => $notification_driver;
     'xenapi_generate_swap': value => 'true';
-    'firewall_driver': value => 'nova.virt.xenapi.firewall.Dom0IptablesFirewallDriver'
+    'firewall_driver': value => 'nova.virt.xenapi.firewall.Dom0IptablesFirewallDriver';
     'glance_num_retries': value => '5';
   }
 
