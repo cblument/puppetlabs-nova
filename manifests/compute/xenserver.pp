@@ -24,6 +24,8 @@ class nova::compute::xenserver(
     'notification_driver': value => $notification_driver;
     'xenapi_generate_swap': value => 'true';
     'firewall_driver': value => 'nova.virt.xenapi.firewall.Dom0IptablesFirewallDriver';
+    'xenapi_vif_driver': value => 'nova.virt.xenapi.vif.XenAPIOpenVswitchDriver';
+    'xenapi_ovs_integration_bridge': value => 'xapi0';
     'glance_num_retries': value => '5';
   }
 
